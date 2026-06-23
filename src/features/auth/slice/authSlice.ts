@@ -12,6 +12,8 @@ const initialState: AuthState = {
   isAuthenticated: !!storedToken,
   status: "idle",
   error: null,
+  userFullName: null,
+  userRole: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -56,6 +58,8 @@ const authSlice = createSlice({
         (state, action: PayloadAction<LoginResponse>) => {
           state.status = "succeeded";
           state.isAuthenticated = true;
+          state.userFullName = action.payload.user.fullName;
+          state.userRole = action.payload.user.role;
           state.access_token = action.payload.access_token;
           localStorage.setItem("token", action.payload.access_token);
         },

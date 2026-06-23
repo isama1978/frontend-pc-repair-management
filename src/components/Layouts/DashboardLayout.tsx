@@ -10,14 +10,15 @@ import {
   Container,
   CssBaseline,
   IconButton,
+  Chip,
 } from "@mui/material";
 import { logout } from "../../features/auth/slice/authSlice";
 import { LanguageSelector } from "./LanguageSelector";
 import { uiDictionaries } from "../../config/i18nDictionaries";
 import { toggleThemeMode } from "../../features/ui/uiSlice";
 import type { RootState } from "../../app/store";
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 export const DashboardLayout: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,11 @@ export const DashboardLayout: React.FC = () => {
 
   // 2. Apuntamos al set de textos correspondiente
   const t = uiDictionaries[currentLang].dashboard;
+
+  // Consumo seguro del estado de Autenticación
+  const { userFullName, userRole } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const handleLogout = () => {
     dispatch(logout());
@@ -66,6 +72,35 @@ export const DashboardLayout: React.FC = () => {
           >
             {t.orders}
           </Button>
+
+          {userFullName && (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 3 }}>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 500, opacity: 0.9 }}
+              >
+                {`${t.welcomeGreeting}${userFullName}`}
+              </Typography>
+              {userRole && (
+                <Chip
+                  label={userRole}
+                  size="small"
+                  color={userRole === "ADMIN" ? "secondary" : "default"}
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: "0.65rem",
+                    height: 20,
+                    bgcolor:
+                      userRole === "ADMIN"
+                        ? "secondary.main"
+                        : "rgba(255,255,255,0.2)",
+                    color: "#fff",
+                  }}
+                />
+              )}
+            </Box>
+          )}
+
           {/* Selector de idiomas agregado */}
           <Box sx={{ ml: 2 }}>
             <LanguageSelector />
