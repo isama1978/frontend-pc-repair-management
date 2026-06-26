@@ -11,6 +11,8 @@ import type {
   BackendWorkOrderWrapper, // El contenedor estructural { props: WorkOrder }
   OrderHistory,
   OrderPart,
+  AddPartToOrderResponse,
+  AddPartToOrderRequest,
 } from "../types";
 
 const initialState: WorkOrdersState = {
@@ -132,25 +134,22 @@ export const fetchOrderDetailsData = createAsyncThunk<
   },
 );
 
-// export const fetchOrderDetailsData = createAsyncThunk(
-//   "workOrders/fetchOrderDetailsData",
-//   async (id: string, { rejectWithValue }) => {
-//     try {
-//       const [history, parts] = await Promise.all([
-//         workOrdersService.getOrderHistory(id),
-//         workOrdersService.getOrderParts(id),
-//       ]);
-//       return { history, parts };
-//     } catch (error: unknown) {
-//       if (axios.isAxiosError(error) && error.response?.data?.message) {
-//         return rejectWithValue(error.response.data.message);
-//       }
-//       return rejectWithValue(
-//         "Error al cargar la información detallada de la orden.",
-//       );
-//     }
-//   },
-// );
+export const addPartToOrder = createAsyncThunk<
+  AddPartToOrderResponse & { partId: string; quantity: number }, 
+  { orderId: string; data: AddPartToOrderRequest },
+  { rejectValue: string }
+>('workOrders/addPart', async ({ orderId, data }, { rejectWithValue }) => {
+  try {
+    const response = await workOrdersService.addPartToOrder(orderId, data);
+    return {
+      ...response,
+      partId: data.partId,
+      quantity: data.quantity
+    };
+  } catch (error: unknown) {
+    return rejectWithValue('Error al agregar el repuesto al pañol');
+  }
+});
 
 const workOrdersSlice = createSlice({
   name: "workOrders",

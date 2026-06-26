@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../app/store'; // Ajusta la ruta a tu store global
-import { fetchAllOrders, fetchMyOrders } from '../slice/workOrdersSlice';
+import { fetchAllOrders, fetchMyOrders, setCurrentOrder } from '../slice/workOrdersSlice';
 import type { WorkOrderStatus, WorkOrder } from '../types';
 import {uiDictionaries} from '../../../config/i18nDictionaries'; // Diccionarios del Hito 1
 
@@ -25,6 +25,7 @@ import {
   Alert,
   Grid,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // Colores semánticos para los estados de la orden
 const statusStyles: Record<WorkOrderStatus, { labelKey: string; color: 'default' | 'primary' | 'secondary' | 'success' | 'error' }> = {
@@ -37,6 +38,7 @@ const statusStyles: Record<WorkOrderStatus, { labelKey: string; color: 'default'
 
 export const OrdersPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   
   // Consumo de estados globales (UI e i18n del Hito 1 + Work Orders)
   const lang = useSelector((state: RootState) => state.ui.language as 'es' | 'en' | 'pt');
@@ -213,8 +215,8 @@ export const OrdersPage: React.FC = () => {
                             size="small"
                             onClick={() => {
                               // Aquí despacharemos la selección antes de navegar al detalle
-                              // dispatch(setCurrentOrder(order));
-                              // navigate(`/orders/${order.id}`);
+                              dispatch(setCurrentOrder(order));
+                              navigate(`/orders/${order.id}`);
                             }}
                           >
                             {t.viewDetailsBtn || 'Ver Detalle'}

@@ -43,6 +43,8 @@ export const uiDictionaries = {
       noOrdersFound:
         "No se encontraron órdenes que coincidan con los criterios.",
       viewDetailsBtn: "Ver Detalle",
+      orderDetailTitle: "Detalle de Órden",
+      orderPartsTitle: "Repuestos Utilizados",
     },
   },
   en: {
@@ -88,6 +90,8 @@ export const uiDictionaries = {
       thActions: "Actions",
       noOrdersFound: "No orders found matching the criteria.",
       viewDetailsBtn: "View Details",
+      orderDetailTitle: "Order Details",
+      orderPartsTitle: "Used Parts",
     },
   },
   pt: {
@@ -133,6 +137,8 @@ export const uiDictionaries = {
       thActions: "Ações",
       noOrdersFound: "Nenhuma ordem encontrada com os critérios informados.",
       viewDetailsBtn: "Ver Detalhes",
+      orderDetailTitle: "Detalhes da Ordem",
+      orderPartsTitle: "Repares Utilizados",
     },
   },
 };
