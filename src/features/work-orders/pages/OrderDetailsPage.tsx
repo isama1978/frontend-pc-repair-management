@@ -13,9 +13,9 @@ import { Delete as DeleteIcon, History as HistoryIcon, Build as BuildIcon } from
 
 // Uso estricto de tus nuevos hooks tipados
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'; 
-import { fetchOrderDetailsData, addPartToOrder } from '../slice/workOrdersSlice';
+import { fetchOrderDetailsData, addPartToOrder, updateOrderStatus } from '../slice/workOrdersSlice';
 import {uiDictionaries} from '../../../config/i18nDictionaries';
-import type { OrderHistory } from '../types';
+import type { OrderHistory, WorkOrderStatus } from '../types';
 
 // Validación Zod para agregar repuesto
 const partSchema = z.object({
@@ -195,8 +195,14 @@ export const OrderDetailsPage: React.FC = () => {
               labelId="status-select-label"
               value={currentOrder.status}
               label="Cambiar Estado"
-              onChange={(e) => {/* PATCH /orders/:id/status */}}
-            >
+              onChange={(e) => {
+                const newStatus = e.target.value as WorkOrderStatus;
+                if (newStatus !== currentOrder.status) {
+                  // Llamada a la API para actualizar el estado
+                  dispatch(updateOrderStatus({id: currentOrder.id, data: {status: newStatus}}));
+                }
+              }}
+                         >
               <MenuItem value="RECEIVED">RECIBIDO</MenuItem>
               <MenuItem value="IN_PROGRESS">EN PROCESO</MenuItem>
               <MenuItem value="READY">LISTO</MenuItem>
