@@ -27,7 +27,7 @@ jobs:
         run: npm ci # Usa "npm install" si no tenés un package-lock.json estable
 
       - name: Execute Tests
-        run: npm run test -- --watchAll=false --passWithNoTests
+        run: npm run test -- --passWithNoTests
 
       - name: Build Project (Build)
         # Inyectamos la variable de entorno directamente en el entorno de Node antes del Build de Vite
