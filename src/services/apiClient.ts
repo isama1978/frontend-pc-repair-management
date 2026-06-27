@@ -4,8 +4,7 @@ import { store } from "../app/store";
 
 // Instancia base apuntando al entorno correspondiente
 export const apiClient = axios.create({
-  // baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000",
-  baseURL: import.meta.env.VITE_API_BASE_URL || "https://pc-repair-management.onrender.com/",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },
